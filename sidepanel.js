@@ -120,3 +120,52 @@ function showResultWithCopy(content, originalText, operation) {
     document.getElementById('copyResult').onclick = () => copyFeedback('copyResult', content.replace(/<br>/g, '\n'));
     document.getElementById('copyOriginal').onclick = () => copyFeedback('copyOriginal', originalText);
 }
+
+
+function showResult(content) {
+    document.getElementById('results').innerHTML = `<div class="result-item"><div class="result-content">${content}</div></div>`;
+    adjustResultsHeight();
+}
+
+function adjustResultsHeight() {
+    const resultsBox = document.getElementById('results');
+    const content = resultsBox.querySelector('.result-content');
+    
+    requestAnimationFrame(() => {
+        if (content) {
+            const scrollHeight = content.scrollHeight;
+            const lineHeight = 30;
+            const lineCount = Math.ceil(scrollHeight / lineHeight);
+            const newHeight = Math.max(250, Math.min(600, lineCount * 35));
+            resultsBox.style.minHeight = newHeight + 'px';
+            resultsBox.scrollTop = 0;
+        }
+    });
+}
+
+function showCleanToast(message) {
+    const existing = document.querySelector('.toast');
+    if (existing) existing.remove();
+
+    const toast = document.createElement('div');
+    toast.className = 'toast';
+    toast.textContent = message;
+    document.body.appendChild(toast);
+    setTimeout(() => toast.remove(), 2500);
+}
+
+function setLoadingState(loading, operation = 'summarize') {
+    const btn = document.getElementById('processBtn');
+    const ops = {
+        'summarize': '⏳ Generating Summary...',
+        'explain': '💡 Explaining Simply...', 
+        'keywords': '🔑 Extracting Keywords...',
+        'suggest': '💭 Finding Topics...',
+        'translate': '🌐 Translating...',
+        'sentiment': '😊 Analyzing Sentiment...',
+        'qa': '❓ Creating Q&A...',
+        'steps': '📋 Generating Steps...'
+    };
+    btn.disabled = loading;
+    btn.innerHTML = loading ? ops[operation] || '⏳ Processing...' : '🚀 Process Selected Text';
+}
