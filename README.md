@@ -63,7 +63,7 @@ Turn ON **Developer mode** (top right).
 This extension requires the backend server.
 
 Backend repo:  
-👉 `https://github.com/YOUR-USERNAME/YOUR-BACKEND-REPO`
+👉 `https://github.com/rekandlal/Backend-AI-Powered-Research-Assistant-Extension`
 
 Make sure backend is running at:
 
